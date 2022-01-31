@@ -5,7 +5,9 @@ sudo apt update
 sudo apt -y upgrade
 
 sudo apt install libnss3-tools
-brew install mkcert
+git clone https://github.com/FiloSottile/mkcert && cd mkcert
+go build -ldflags "-X main.Version=$(git describe --tags)"
+cd -
 mkcert -cert-file ~/parsagon/cert.pem -key-file ~/parsagon/key.pem $IP
 
 sudo apt -y install nginx
