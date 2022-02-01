@@ -4,14 +4,21 @@ IP_ADDR=$(dig @resolver4.opendns.com myip.opendns.com +short)
 sudo apt update
 sudo apt -y upgrade
 
-sudo apt install python3-pip
+sudo apt -y install python3-pip
+sudo apt -y install daphne
 pip install -r server/requirements.txt
 
-cd ~/parsagon
-mkdir -p ~/parsagon
+sudo apt -y install supervisor
+
+sudo cp supervisor.conf /etc/supervisor/conf.d/
+sudo supervisorctl stop all
+sudo supervisorctl update
+sudo supervisorctl start all
 
 if [ ! -e /usr/local/bin/mkcert ]
 then
+    cd ~/parsagon
+    mkdir -p ~/parsagon
     sudo apt -y install libnss3-tools
     sudo apt -y install golang-go
     git clone https://github.com/FiloSottile/mkcert && cd mkcert
@@ -24,13 +31,12 @@ mkcert -cert-file ~/parsagon/cert.pem -key-file ~/parsagon/key.pem $IP_ADDR
 sudo apt -y install nginx
 sudo ufw allow 'Nginx HTTPS'
 
-if [ ! -e /etc/nginx/sites-available/server.conf ]
-then
-    sudo cp ./server.conf /etc/nginx/sites-available
-    sudo ln -s /etc/nginx/sites-available/server.conf /etc/nginx/sites-enabled/
-    sudo rm /etc/nginx/sites-enabled/default
-fi
+cd $ORIG_DIR
+sudo cp ./server.conf /etc/nginx/sites-available
+sudo ln -s /etc/nginx/sites-available/server.conf /etc/nginx/sites-enabled/
+sudo rm /etc/nginx/sites-enabled/default
 sudo systemctl restart nginx
+
 cd $ORIG_DIR
 
 #if ! command -v redis-server &> /dev/null
