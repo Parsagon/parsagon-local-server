@@ -1,9 +1,14 @@
-IP=$(dig @resolver4.opendns.com myip.opendns.com +short)
-mkdir -p ~/parsagon
-cd ~/parsagon
+ORIG_DIR=$PWD
+IP_ADDR=$(dig @resolver4.opendns.com myip.opendns.com +short)
 
 sudo apt update
 sudo apt -y upgrade
+
+sudo apt install python3-pip
+pip install -r server/requirements.txt
+
+cd ~/parsagon
+mkdir -p ~/parsagon
 
 if [ ! -e /usr/local/bin/mkcert ]
 then
@@ -14,7 +19,7 @@ then
     sudo cp mkcert /usr/local/bin/mkcert
     sudo chmod +x /usr/local/bin/mkcert
 fi
-mkcert -cert-file ~/parsagon/cert.pem -key-file ~/parsagon/key.pem $IP
+mkcert -cert-file ~/parsagon/cert.pem -key-file ~/parsagon/key.pem $IP_ADDR
 
 sudo apt -y install nginx
 sudo ufw allow 'Nginx HTTPS'
@@ -26,7 +31,7 @@ then
     sudo rm /etc/nginx/sites-enabled/default
 fi
 sudo systemctl restart nginx
-cd -
+cd $ORIG_DIR
 
 #if ! command -v redis-server &> /dev/null
 #then
