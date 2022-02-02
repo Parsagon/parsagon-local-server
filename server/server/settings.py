@@ -30,8 +30,9 @@ def get_env_variable(var_name):
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*4e-zoc$i7qu+^8resazkd4yabmzgx-#4ns(ixxe^=l3ep&97o'
 SECRET_KEY = get_env_variable('SECRET_KEY')
+
+API_KEY = get_env_variable('API_KEY')
 
 # indicates whether we're in production
 PRODUCTION = int(get_env_variable('PRODUCTION'))

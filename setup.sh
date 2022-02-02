@@ -8,14 +8,7 @@ sudo apt -y install python3-pip
 sudo apt -y install daphne
 pip install -r server/requirements.txt
 
-sudo apt -y install supervisor
-
-sudo cp supervisor.conf /etc/supervisor/conf.d/
-sudo supervisorctl stop all
-sudo supervisorctl update
-sudo supervisorctl start all
-
-if [ ! -e /usr/local/bin/mkcert ]
+if ! command -v mkcert &> /dev/null
 then
     cd ~/parsagon
     mkdir -p ~/parsagon
@@ -37,18 +30,25 @@ sudo ln -s /etc/nginx/sites-available/server.conf /etc/nginx/sites-enabled/
 sudo rm /etc/nginx/sites-enabled/default
 sudo systemctl restart nginx
 
-cd $ORIG_DIR
+if ! command -v redis-server &> /dev/null
+then
+    sudo apt -y install make
+    sudo apt -y install tcl
+    cd
+    wget http://download.redis.io/redis-stable.tar.gz
+    tar xvzf redis-stable.tar.gz
+    cd redis-stable
+    make
+    sudo make install
+    sudo sh -c 'echo "vm.overcommit_memory = 1" >> /etc/sysctl.conf'
+    sudo sysctl vm.overcommit_memory=1
+fi
 
-#if ! command -v redis-server &> /dev/null
-#then
-    #sudo apt -y install make
-    #sudo apt -y install tcl
-    #cd
-    #wget http://download.redis.io/redis-stable.tar.gz
-    #tar xvzf redis-stable.tar.gz
-    #cd redis-stable
-    #make
-    #sudo make install
-    #sudo sh -c 'echo "vm.overcommit_memory = 1" >> /etc/sysctl.conf'
-    #sudo sysctl vm.overcommit_memory=1
-#fi
+sudo apt -y install supervisor
+cd $ORIG_DIR
+sudo cp supervisor.conf /etc/supervisor/conf.d/
+sudo supervisorctl stop all
+sudo supervisorctl update
+sudo supervisorctl start all
+
+cd $ORIG_DIR

@@ -18,6 +18,8 @@ from django.urls import path
 from server import views
 
 urlpatterns = [
+    path('ping/', views.ping),
     path('read-db/', views.read_db),
+    path('write-db/', views.write_db),
     path('run-pipeline/', views.run_pipeline),
 ]
