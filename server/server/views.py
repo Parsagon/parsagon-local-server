@@ -6,7 +6,7 @@ import pandas as pd
 
 
 @api_view(['GET'])
-def ping(request)
+def ping(request):
     return Response('pong')
 
 
