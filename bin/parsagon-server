@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ORIG_DIR = $PWD
+ORIG_DIR=$PWD
 IP_ADDR=$(dig @resolver4.opendns.com myip.opendns.com +short)
 
 if [ -e ~/parsagon ]
