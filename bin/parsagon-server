@@ -18,14 +18,6 @@ sudo apt -y install redis-server
 sudo cp ~/parsagon/parsagon-local-server/src/parsagon/redis.conf /etc/redis/redis.conf
 sudo systemctl restart redis.service
 
-sudo apt -y install python3-pip
-sudo apt -y install python3-venv
-python3 -m venv ~/parsagon/venv
-source ~/parsagon/venv/bin/activate
-
-sudo apt -y install daphne
-pip install -r server/requirements.txt
-
 if ! command -v mkcert &> /dev/null
 then
     cd ~/parsagon
@@ -40,7 +32,6 @@ mkcert -cert-file ~/parsagon/cert.pem -key-file ~/parsagon/key.pem $IP_ADDR
 
 sudo apt -y install nginx
 sudo ufw allow 'Nginx HTTPS'
-
 sudo cp ~/parsagon/parsagon-local-server/src/parsagon/nginx.conf /etc/nginx/sites-available
 sudo ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/
 sudo rm /etc/nginx/sites-enabled/default
