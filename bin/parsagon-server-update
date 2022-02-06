@@ -12,8 +12,8 @@ pip install -r ~/parsagon/parsagon-local-server/src/parsagon/server/requirements
 source ~/parsagon/parsagon-local-server/bin/parsagon-server-update-plus
 
 cd ~/parsagon/parsagon-local-server/src/parsagon/server
-printf '%s\n%s\n' "export API_KEY=$(cat ~/parsagon/api_key)" "$(cat daphne.sh)" > daphne.sh
-printf '%s\n%s\n' "export API_KEY=$(cat ~/parsagon/api_key)" "$(cat celery.sh)" > celery.sh
+printf '%s\n%s\n%s\n' "export PARSAGON_HOST=$(cat ~/parsagon/parsagon_host)" "export API_KEY=$(cat ~/parsagon/api_key)" "$(cat daphne.sh)" > daphne.sh
+printf '%s\n%s\n%s\n' "export PARSAGON_HOST=$(cat ~/parsagon/parsagon_host)" "export API_KEY=$(cat ~/parsagon/api_key)" "$(cat celery.sh)" > celery.sh
 
 sudo supervisorctl stop all
 sudo supervisorctl update
