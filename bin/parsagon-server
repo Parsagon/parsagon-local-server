@@ -15,6 +15,8 @@ git clone https://github.com/Sand1929/parsagon-local-server.git
 cd ~/parsagon/parsagon-local-server/src/parsagon/server
 printf '%s\n%s\n' "export API_KEY=$1" "$(cat daphne.sh)" > daphne.sh
 printf '%s\n%s\n' "export API_KEY=$1" "$(cat celery.sh)" > celery.sh
+cd ~/parsagon
+echo $1 > api_key
 
 sudo apt update
 sudo apt -y upgrade

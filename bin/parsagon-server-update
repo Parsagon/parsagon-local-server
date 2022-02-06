@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+ORIG_DIR=$PWD
+
+cd ~/parsagon/parsagon-local-server
+git checkout .
+git pull
+
+source ~/parsagon/venv/bin/activate
+pip install -r ~/parsagon/parsagon-local-server/src/parsagon/server/requirements.txt
+
+source ~/parsagon/parsagon-local-server/bin/parsagon-server-update-plus
+
+cd ~/parsagon/parsagon-local-server/src/parsagon/server
+printf '%s\n%s\n' "export API_KEY=$(cat ~/parsagon/api_key)" "$(cat daphne.sh)" > daphne.sh
+printf '%s\n%s\n' "export API_KEY=$(cat ~/parsagon/api_key)" "$(cat celery.sh)" > celery.sh
+
+sudo supervisorctl stop all
+sudo supervisorctl update
+sudo supervisorctl start all
+
+cd $ORIG_DIR

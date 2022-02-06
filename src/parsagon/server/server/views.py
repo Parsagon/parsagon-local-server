@@ -2,12 +2,19 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from server.tasks import run_code
 
+import subprocess
 import pandas as pd
 
 
 @api_view(['GET'])
 def ping(request):
     return Response('pong')
+
+
+@api_view(['POST'])
+def update(request):
+    subprocess.run(["~/parsagon/bin/parsagon-server-update"])
+    return Response('OK')
 
 
 @api_view(['POST'])
