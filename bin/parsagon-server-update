@@ -2,18 +2,18 @@
 
 ORIG_DIR=$PWD
 
-cd ~/parsagon/parsagon-local-server
+cd /home/ubuntu/parsagon/parsagon-local-server
 git checkout .
 git pull
 
-source ~/parsagon/venv/bin/activate
-pip install -r ~/parsagon/parsagon-local-server/src/parsagon/server/requirements.txt
+source /home/ubuntu/parsagon/venv/bin/activate
+pip install -r /home/ubuntu/parsagon/parsagon-local-server/src/parsagon/server/requirements.txt
 
-source ~/parsagon/parsagon-local-server/bin/parsagon-server-update-plus
+source /home/ubuntu/parsagon/parsagon-local-server/bin/parsagon-server-update-plus
 
-cd ~/parsagon/parsagon-local-server/src/parsagon/server
-printf '%s\n%s\n%s\n' "export PARSAGON_HOST=$(cat ~/parsagon/parsagon_host)" "export API_KEY=$(cat ~/parsagon/api_key)" "$(cat daphne.sh)" > daphne.sh
-printf '%s\n%s\n%s\n' "export PARSAGON_HOST=$(cat ~/parsagon/parsagon_host)" "export API_KEY=$(cat ~/parsagon/api_key)" "$(cat celery.sh)" > celery.sh
+cd /home/ubuntu/parsagon/parsagon-local-server/src/parsagon/server
+printf '%s\n%s\n%s\n' "export PARSAGON_HOST=$(cat /home/ubuntu/parsagon/parsagon_host)" "export API_KEY=$(cat /home/ubuntu/parsagon/api_key)" "$(cat daphne.sh)" > daphne.sh
+printf '%s\n%s\n%s\n' "export PARSAGON_HOST=$(cat /home/ubuntu/parsagon/parsagon_host)" "export API_KEY=$(cat /home/ubuntu/parsagon/api_key)" "$(cat celery.sh)" > celery.sh
 
 sudo supervisorctl stop all
 sudo supervisorctl update

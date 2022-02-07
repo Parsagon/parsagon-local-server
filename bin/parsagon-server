@@ -3,16 +3,16 @@
 ORIG_DIR=$PWD
 IP_ADDR=$(dig @resolver4.opendns.com myip.opendns.com +short)
 
-if [ -e ~/parsagon ]
+if [ -e /home/ubuntu/parsagon ]
 then
-    rm -rf ~/parsagon
+    rm -rf /home/ubuntu/parsagon
 fi
 
-mkdir -p ~/parsagon
-cd ~/parsagon
+mkdir -p /home/ubuntu/parsagon
+cd /home/ubuntu/parsagon
 git clone https://github.com/Sand1929/parsagon-local-server.git
 
-cd ~/parsagon
+cd /home/ubuntu/parsagon
 echo $1 > api_key
 if [ -z "$2" ]
 then
@@ -20,27 +20,27 @@ then
 else
     echo $2 > parsagon_host
 fi
-cd ~/parsagon/parsagon-local-server/src/parsagon/server
-printf '%s\n%s\n%s\n' "export PARSAGON_HOST=$(cat ~/parsagon/parsagon_host)" "export API_KEY=$(cat ~/parsagon/api_key)" "$(cat daphne.sh)" > daphne.sh
-printf '%s\n%s\n%s\n' "export PARSAGON_HOST=$(cat ~/parsagon/parsagon_host)" "export API_KEY=$(cat ~/parsagon/api_key)" "$(cat celery.sh)" > celery.sh
+cd /home/ubuntu/parsagon/parsagon-local-server/src/parsagon/server
+printf '%s\n%s\n%s\n' "export PARSAGON_HOST=$(cat /home/ubuntu/parsagon/parsagon_host)" "export API_KEY=$(cat /home/ubuntu/parsagon/api_key)" "$(cat daphne.sh)" > daphne.sh
+printf '%s\n%s\n%s\n' "export PARSAGON_HOST=$(cat /home/ubuntu/parsagon/parsagon_host)" "export API_KEY=$(cat /home/ubuntu/parsagon/api_key)" "$(cat celery.sh)" > celery.sh
 
 sudo apt update
 sudo apt -y upgrade
 
 sudo apt -y install redis-server
-sudo cp ~/parsagon/parsagon-local-server/src/parsagon/redis.conf /etc/redis/redis.conf
+sudo cp /home/ubuntu/parsagon/parsagon-local-server/src/parsagon/redis.conf /etc/redis/redis.conf
 sudo systemctl restart redis.service
 
 sudo apt -y install python3-venv
-python3 -m venv ~/parsagon/venv
-source ~/parsagon/venv/bin/activate
+python3 -m venv /home/ubuntu/parsagon/venv
+source /home/ubuntu/parsagon/venv/bin/activate
 
 sudo apt -y install daphne
-pip install -r ~/parsagon/parsagon-local-server/src/parsagon/server/requirements.txt
+pip install -r /home/ubuntu/parsagon/parsagon-local-server/src/parsagon/server/requirements.txt
 
 if ! command -v mkcert &> /dev/null
 then
-    cd ~/parsagon
+    cd /home/ubuntu/parsagon
     sudo apt -y install libnss3-tools
     sudo apt -y install golang-go
     git clone https://github.com/FiloSottile/mkcert && cd mkcert
@@ -48,11 +48,11 @@ then
     sudo cp mkcert /usr/local/bin/mkcert
     sudo chmod +x /usr/local/bin/mkcert
 fi
-mkcert -cert-file ~/parsagon/cert.pem -key-file ~/parsagon/key.pem $IP_ADDR
+mkcert -cert-file /home/ubuntu/parsagon/cert.pem -key-file /home/ubuntu/parsagon/key.pem $IP_ADDR
 
 sudo apt -y install nginx
 sudo ufw allow 'Nginx HTTPS'
-sudo cp ~/parsagon/parsagon-local-server/src/parsagon/nginx.conf /etc/nginx/sites-available
+sudo cp /home/ubuntu/parsagon/parsagon-local-server/src/parsagon/nginx.conf /etc/nginx/sites-available
 if [ ! -e /etc/nginx/sites-enabled/nginx.conf ]
 then
     sudo ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/
@@ -64,7 +64,7 @@ fi
 sudo systemctl restart nginx
 
 sudo apt -y install supervisor
-sudo cp ~/parsagon/parsagon-local-server/src/parsagon/supervisor.conf /etc/supervisor/conf.d/
+sudo cp /home/ubuntu/parsagon/parsagon-local-server/src/parsagon/supervisor.conf /etc/supervisor/conf.d/
 sudo supervisorctl stop all
 sudo supervisorctl update
 sudo supervisorctl start all

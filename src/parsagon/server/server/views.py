@@ -13,7 +13,7 @@ def ping(request):
 
 @api_view(['POST'])
 def update(request):
-    subprocess.run(["~/parsagon/bin/parsagon-server-update"])
+    subprocess.run(["/home/ubuntu/parsagon/parsagon-local-server/bin/parsagon-server-update"])
     return Response('OK')
 
 
