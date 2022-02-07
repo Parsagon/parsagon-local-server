@@ -42,6 +42,8 @@ DEBUG = not PRODUCTION
 
 ALLOWED_HOSTS = [get_env_variable('HOST')]
 
+PARSAGON_HOST = get_env_variable('PARSAGON_HOST')
+
 
 # Application definition
 

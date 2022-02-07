@@ -12,7 +12,6 @@ mkdir -p ~/parsagon
 cd ~/parsagon
 git clone https://github.com/Sand1929/parsagon-local-server.git
 
-cd ~/parsagon/parsagon-local-server/src/parsagon/server
 cd ~/parsagon
 echo $1 > api_key
 if [ -z "$2" ]
@@ -21,6 +20,7 @@ then
 else
     echo $2 > parsagon_host
 fi
+cd ~/parsagon/parsagon-local-server/src/parsagon/server
 printf '%s\n%s\n%s\n' "export PARSAGON_HOST=$(cat ~/parsagon/parsagon_host)" "export API_KEY=$(cat ~/parsagon/api_key)" "$(cat daphne.sh)" > daphne.sh
 printf '%s\n%s\n%s\n' "export PARSAGON_HOST=$(cat ~/parsagon/parsagon_host)" "export API_KEY=$(cat ~/parsagon/api_key)" "$(cat celery.sh)" > celery.sh
 
