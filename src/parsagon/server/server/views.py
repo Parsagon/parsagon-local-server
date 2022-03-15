@@ -8,6 +8,7 @@ from pyvirtualdisplay import Display
 from seleniumwire import webdriver
 from lxml import etree
 import lxml.html
+import time
 
 
 @api_view(['GET'])
