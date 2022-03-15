@@ -4,6 +4,9 @@ from server.tasks import run_code
 
 import subprocess
 import pandas as pd
+from seleniumwire import webdriver
+from lxml import etree
+import lxml.html
 
 
 @api_view(['GET'])
@@ -51,6 +54,23 @@ def write_db(request):
     con = f'postgresql://{user}:{password}@{host}:{port}/{db_name}'
 
     return Response('OK')
+
+
+@api_view(['POST'])
+def fetch_web(request):
+    url = request.data['url']
+    options = {'disable_capture': True}
+    display = Display(visible=False, size=(1680, 1050)).start()
+    driver = webdriver.Chrome('/home/ubuntu/parsagon/chromedriver', seleniumwire_options=options)
+    driver.maximize_window()
+    driver.get(url)
+    time.sleep(2)
+    page_source = driver.page_source
+    parser = lxml.html.HTMLParser(remove_comments=True, remove_pis=True)
+    root = lxml.html.fromstring(page_source, parser=parser)
+    etree.strip_elements(root, 'script', with_tail=False)
+    etree.strip_elements(root, 'noscript', with_tail=False)
+    return Response({'html': lxml.html.tostring(root)})
 
 
 @api_view(['POST'])

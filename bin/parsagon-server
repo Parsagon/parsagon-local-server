@@ -27,6 +27,16 @@ printf '%s\n%s\n%s\n' "export PARSAGON_HOST=$(cat /home/ubuntu/parsagon/parsagon
 sudo apt update
 sudo apt -y upgrade
 
+sudo apt -y install libpq-dev python3-dev
+
+sudo apt -y install unzip xvfb libxi6 libgconf-2-4
+cd /home/ubuntu/parsagon
+wget -O chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_99.0.4844.51-1_amd64.deb
+sudo apt install -y chrome.deb
+rm chrome.deb
+wget https://chromedriver.storage.googleapis.com/99.0.4844.51/chromedriver_linux64.zip
+unzip chromedriver_linux64.zip
+
 sudo apt -y install redis-server
 sudo cp /home/ubuntu/parsagon/parsagon-local-server/src/parsagon/redis.conf /etc/redis/redis.conf
 sudo systemctl restart redis.service
@@ -68,5 +78,7 @@ sudo cp /home/ubuntu/parsagon/parsagon-local-server/src/parsagon/supervisor.conf
 sudo supervisorctl stop all
 sudo supervisorctl update
 sudo supervisorctl start all
+
+sudo apt -y autoremove
 
 cd $ORIG_DIR

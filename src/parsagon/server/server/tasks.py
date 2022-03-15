@@ -16,6 +16,7 @@ def run_code(pipeline_id, run_id):
     try:
         exec(code)
     except Exception as e:
+        #requests.post(f'https://{settings.PARSAGON_HOST}/api/pipelines/', headers=headers, json={'message': e, 'state': var_state})
         requests.patch(f'https://{settings.PARSAGON_HOST}/api/pipelines/runs/{run_id}/', headers=headers, json={'status': 'ERROR'})
         return
     requests.patch(f'https://{settings.PARSAGON_HOST}/api/pipelines/runs/{run_id}/', headers=headers, json={'status': 'FINISHED'})
