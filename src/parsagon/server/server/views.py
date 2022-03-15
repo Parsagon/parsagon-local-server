@@ -72,6 +72,7 @@ def fetch_web(request):
     root = lxml.html.fromstring(page_source, parser=parser)
     etree.strip_elements(root, 'script', with_tail=False)
     etree.strip_elements(root, 'noscript', with_tail=False)
+    root.make_links_absolute(url)
     return Response({'html': lxml.html.tostring(root)})
 
 
