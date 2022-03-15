@@ -4,6 +4,7 @@ from server.tasks import run_code
 
 import subprocess
 import pandas as pd
+from pyvirtualdisplay import Display
 from seleniumwire import webdriver
 from lxml import etree
 import lxml.html

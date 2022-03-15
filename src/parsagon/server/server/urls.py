@@ -22,5 +22,6 @@ urlpatterns = [
     path('update/', views.update),
     path('read-db/', views.read_db),
     path('write-db/', views.write_db),
+    path('fetch-web/', views.fetch_web),
     path('run-pipeline/', views.run_pipeline),
 ]
