@@ -68,6 +68,8 @@ def fetch_web(request):
     driver.get(url)
     time.sleep(2)
     page_source = driver.page_source
+    driver.quit()
+    display.stop()
     parser = lxml.html.HTMLParser(remove_comments=True, remove_pis=True)
     root = lxml.html.fromstring(page_source, parser=parser)
     etree.strip_elements(root, 'script', with_tail=False)
