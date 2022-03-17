@@ -34,9 +34,6 @@ cd /home/ubuntu/parsagon
 wget -O chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_99.0.4844.51-1_amd64.deb
 sudo apt install -y /home/ubuntu/parsagon/chrome.deb
 rm chrome.deb
-wget https://chromedriver.storage.googleapis.com/99.0.4844.51/chromedriver_linux64.zip
-unzip chromedriver_linux64.zip
-rm chromedriver_linux64.zip
 
 sudo apt -y install redis-server
 sudo cp /home/ubuntu/parsagon/parsagon-local-server/src/parsagon/redis.conf /etc/redis/redis.conf

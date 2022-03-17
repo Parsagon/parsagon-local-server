@@ -9,4 +9,5 @@ SQLAlchemy==1.4.31
 psycopg2==2.9.3
 PyVirtualDisplay==3.0
 selenium-wire==4.6.3
+webdriver-manager==3.5.3
 lxml==4.8.0

@@ -6,6 +6,8 @@ import subprocess
 import pandas as pd
 from pyvirtualdisplay import Display
 from seleniumwire import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from lxml import etree
 import lxml.html
 import time
@@ -63,7 +65,7 @@ def fetch_web(request):
     url = request.data['url']
     options = {'disable_capture': True}
     display = Display(visible=False, size=(1680, 1050)).start()
-    driver = webdriver.Chrome('/home/ubuntu/parsagon/chromedriver', seleniumwire_options=options)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), seleniumwire_options=options)
     driver.maximize_window()
     driver.get(url)
     time.sleep(2)
