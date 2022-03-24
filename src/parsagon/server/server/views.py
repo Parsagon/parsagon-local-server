@@ -63,12 +63,15 @@ def write_db(request):
 @api_view(['POST'])
 def fetch_web(request):
     url = request.data['url']
+    actions = request.data['actions']
     options = {'disable_capture': True}
     display = Display(visible=False, size=(1680, 1050)).start()
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), seleniumwire_options=options)
     driver.maximize_window()
     driver.get(url)
     time.sleep(2)
+    for action in actions:
+        pass
     page_source = driver.page_source
     driver.quit()
     display.stop()
@@ -77,7 +80,7 @@ def fetch_web(request):
     etree.strip_elements(root, 'script', with_tail=False)
     etree.strip_elements(root, 'noscript', with_tail=False)
     root.make_links_absolute(url)
-    return Response({'html': lxml.html.tostring(root)})
+    return Response({'url': url, 'actions': actions, 'html': lxml.html.tostring(root)})
 
 
 @api_view(['POST'])
