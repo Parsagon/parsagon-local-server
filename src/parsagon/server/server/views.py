@@ -80,6 +80,8 @@ def fetch_web(request):
     etree.strip_elements(root, 'script', with_tail=False)
     etree.strip_elements(root, 'noscript', with_tail=False)
     root.make_links_absolute(url)
+    for elem, index in enumerate(root.xpath('//*')):
+        elem.set('data-psgn-id', str(index))
     return Response({'url': url, 'actions': actions, 'html': lxml.html.tostring(root)})
 
 
