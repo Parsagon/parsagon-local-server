@@ -40,7 +40,7 @@ PRODUCTION = int(get_env_variable('PRODUCTION'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not PRODUCTION
 
-ALLOWED_HOSTS = [get_env_variable('HOST')]
+ALLOWED_HOSTS = ['*']
 
 PARSAGON_HOST = get_env_variable('PARSAGON_HOST')
 

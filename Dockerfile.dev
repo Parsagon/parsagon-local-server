@@ -1,0 +1,41 @@
+FROM ubuntu:20.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+WORKDIR /opt
+
+# Apt packages
+RUN apt-get update
+RUN apt-get -y upgrade
+RUN apt-get install -y python3-dev python3-pip python3-venv python3-wheel dnsutils gcc libpq-dev git apt-utils supervisor ufw systemd sudo
+RUN apt-get install -y unzip xvfb libxi6 libgconf-2-4 nginx supervisor libnss3-tools golang-go redis-server daphne wget
+RUN wget -O chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_99.0.4844.51-1_amd64.deb && apt-get install -y ./chrome.deb && rm chrome.deb
+
+# Set user for python stuff
+RUN useradd -m ubuntu
+USER ubuntu
+ENV WORKDIR=/home/ubuntu/parsagon
+WORKDIR $WORKDIR
+
+# Set these environment variables to run the container
+ENV API_KEY=""
+ENV PARSAGON_HOST=parsagon.io
+
+# Copy the repo into the container
+COPY ./src ${WORKDIR}/parsagon-local-server/src
+
+# Install Python dependencies
+RUN pip install --upgrade pip && pip install wheel
+RUN pip install -r ${WORKDIR}/parsagon-local-server/src/parsagon/server/requirements.txt
+
+# Set up NGINX
+USER root
+RUN ufw allow 'Nginx HTTPS' && cp ${WORKDIR}/parsagon-local-server/src/parsagon/nginx.conf /etc/nginx/sites-available && ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/ && rm /etc/nginx/sites-enabled/default
+
+# Set up Supervisor
+RUN cp ${WORKDIR}/parsagon-local-server/src/parsagon/supervisor.conf /etc/supervisor/conf.d/
+
+COPY ./docker/env-save.sh ${WORKDIR}/env-save
+COPY ./docker/cmd.sh ${WORKDIR}/cmd
+
+CMD ["./cmd"]
