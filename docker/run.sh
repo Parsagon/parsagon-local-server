@@ -23,7 +23,7 @@ shift
 
 set -x
 docker run -it --rm \
-	-p 8000:80 \
+	-p 8080:80 \
 	-e "PARSAGON_HOST=$PARSAGON_HOST" \
 	-e "API_KEY=$API_KEY" \
 	pslocal:latest "$@"
