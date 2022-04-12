@@ -1,0 +1,3 @@
+Source for chrome.json:
+- https://github.com/jessfraz/dotfiles/blob/master/etc/docker/seccomp/chrome.json
+- Accompanying SO answer can be found at https://stackoverflow.com/questions/50662388/running-headless-chrome-puppeteer-with-no-sandbox
