@@ -23,5 +23,6 @@ urlpatterns = [
     path('read-db/', views.read_db),
     path('write-db/', views.write_db),
     path('fetch-web/', views.fetch_web),
+    path('fetch-web-action/', views.fetch_web_action),
     path('run-pipeline/', views.run_pipeline),
 ]
