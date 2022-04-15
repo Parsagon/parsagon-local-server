@@ -104,7 +104,14 @@ def fetch_web_action(request):
     args = request.data['args']
 
     loc = dict(locals(), **globals())
-    exec(code, loc, loc)
+    try:
+        exec(code, loc, loc)
+    except:
+        if 'driver' in loc:
+            loc['driver'].quit()
+        if 'display' in loc:
+            loc['display'].stop()
+        raise
 
     driver = loc['driver']
     elem = loc[elem_var_name]
