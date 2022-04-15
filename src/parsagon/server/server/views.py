@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from server.tasks import run_code
+from server.utils import build_structure
 
 import subprocess
 import pandas as pd
@@ -102,8 +103,8 @@ def fetch_web_action(request):
     action = request.data['action']
     args = request.data['args']
 
-    loc = {}
-    exec(code, {}, loc)
+    loc = dict(locals(), **globals())
+    exec(code, loc, loc)
 
     driver = loc['driver']
     elem = loc[elem_var_name]
