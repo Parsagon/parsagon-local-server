@@ -4,6 +4,9 @@ import itertools
 from lxml import etree
 
 
+NODE_ID_ATTR = 'data-psgn-id'
+
+
 class ElemDataType(Enum):
     TEXT = 'TEXT'
     URL = 'URL'
@@ -124,7 +127,7 @@ def create_data(trees):
         if column['user_created']:
             value = get_elem_data(tree.elem, column['type'])
         else:
-            tree.sub_groups.sort(key=lambda grouping: grouping.pointer.orig_node_id)
+            tree.sub_groups.sort(key=lambda grouping: grouping.pointer.orig_node_id if hasattr(grouping.pointer, 'orig_node_id') else grouping.pointer.get(NODE_ID_ATTR))
             value = create_data(tree.sub_groups)
 
         if is_list:
