@@ -137,8 +137,9 @@ def fetch_web_action(request):
         elem.send_keys(args['outputWebActionInput'])
     elif action == 'SCROLL_PAGE':
         driver.execute_script(f"window.scrollTo({{top: document.documentElement.scrollHeight * {args['outputWebActionY']}, left: document.documentElement.scrollWidth * {args['outputWebActionX']}, behavior: 'smooth'}})")
+        time.sleep(0.5)
     elif action == 'WAIT_PAGE':
-        time.sleep(args['outputWebActionSeconds'])
+        time.sleep(float(args['outputWebActionSeconds']))
 
     driver.switch_to.window(page)
     page_source = driver.page_source
