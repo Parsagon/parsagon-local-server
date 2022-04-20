@@ -1,12 +1,21 @@
 from collections import defaultdict
+from enum import Enum
 import itertools
 from lxml import etree
 
 
+class ElemDataType(Enum):
+    TEXT = 'TEXT'
+    URL = 'URL'
+    IMAGE = 'IMAGE'
+    HTML = 'HTML'
+    ACTION = 'ACTION'
+
+
 def get_elem_data(elem, data_type):
-    if data_type == 'TEXT':
+    if data_type == ElemDataType.TEXT.value:
         return elem.xpath('normalize-space()')
-    elif data_type == 'URL':
+    elif data_type == ElemDataType.URL.value:
         if elem.tag == 'a' and 'href' in elem.attrib:
             return elem.get('href')
         else:
@@ -15,7 +24,7 @@ def get_elem_data(elem, data_type):
                 return inner_matches[0].get('href')
             else:
                 return ''
-    elif data_type == 'IMAGE':
+    elif data_type == ElemDataType.IMAGE.value:
         if elem.tag == 'img' and 'src' in elem.attrib:
             return elem.get('src')
         else:
@@ -24,9 +33,9 @@ def get_elem_data(elem, data_type):
                 return inner_matches[0].get('src')
             else:
                 return ''
-    elif data_type == 'HTML':
+    elif data_type == ElemDataType.HTML.value:
         return etree.tostring(elem, method='html', encoding=str)
-    elif data_type == 'ACTION':
+    elif data_type == ElemDataType.ACTION.value:
         return elem
     else:
         raise ValueError('Invalid data type')
@@ -115,6 +124,7 @@ def create_data(trees):
         if column['user_created']:
             value = get_elem_data(tree.elem, column['type'])
         else:
+            tree.sub_groups.sort(key=lambda grouping: grouping.pointer.orig_node_id)
             value = create_data(tree.sub_groups)
 
         if is_list:
