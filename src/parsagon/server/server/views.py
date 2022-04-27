@@ -116,7 +116,7 @@ def fetch_web_action(request):
         exec(code, loc, loc)
 
         driver = loc['driver']
-        elem = loc[elem_var_name]
+        elem = loc['parsagon_variables'][elem_var_name]
         if isinstance(elem, lxml.html.HtmlElement):
             elem_id = elem.get('data-psgn-id')
             elem = driver.find_element_by_xpath(f'//*[@data-psgn-id="{elem_id}"]')
