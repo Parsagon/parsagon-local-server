@@ -31,7 +31,7 @@ def get_cleaned_html(html, url):
     root.make_links_absolute(url)
     for elem in root.xpath('//img[@srcset]'):
         srcset_list = []
-        for s in elem.get(srcset).split(','):
+        for s in elem.get('srcset').split(','):
             parts = s.strip().split()
             parts[0] = urljoin(url, parts[0])
             srcset_list.append(' '.join(parts))
