@@ -114,45 +114,44 @@ def fetch_web_action(request):
     loc = dict(locals(), **globals())
     try:
         exec(code, loc, loc)
-    except:
+
+        driver = loc['driver']
+        elem = loc[elem_var_name]
+        if isinstance(elem, lxml.html.HtmlElement):
+            elem_id = elem.get('data-psgn-id')
+            elem = driver.find_element_by_xpath(f'//*[@data-psgn-id="{elem_id}"]')
+
+        page = driver.current_window_handle
+        page_source = driver.page_source
+        old_url = driver.current_url
+        old_html = get_cleaned_html(page_source, old_url)
+
+        if action == 'CLICK_HTMLELEM':
+            elem.click()
+        elif action == 'SELECT_HTMLELEM':
+            select_obj = Select(elem)
+            if args['outputWebActionOptionType'] == 'INDEX':
+                select_obj.select_by_index(int(args['outputWebActionOption']))
+            else:
+                select_obj.select_by_visible_text(args['outputWebActionOption'])
+        elif action == 'FILL_HTMLELEM':
+            elem.clear()
+            elem.send_keys(args['outputWebActionInput'])
+        elif action == 'SCROLL_PAGE':
+            driver.execute_script(f"window.scrollTo({{top: document.documentElement.scrollHeight * {args['outputWebActionY']}, left: document.documentElement.scrollWidth * {args['outputWebActionX']}, behavior: 'smooth'}})")
+            time.sleep(0.5)
+        elif action == 'WAIT_PAGE':
+            time.sleep(float(args['outputWebActionSeconds']))
+
+        driver.switch_to.window(page)
+        page_source = driver.page_source
+        new_url = driver.current_url
+        new_html = get_cleaned_html(page_source, new_url)
+    finally:
         if 'driver' in loc:
             loc['driver'].quit()
         if 'display' in loc:
             loc['display'].stop()
-        raise
-
-    driver = loc['driver']
-    elem = loc[elem_var_name]
-    if isinstance(elem, lxml.html.HtmlElement):
-        elem_id = elem.get('data-psgn-id')
-        elem = driver.find_element_by_xpath(f'//*[@data-psgn-id="{elem_id}"]')
-
-    page = driver.current_window_handle
-    page_source = driver.page_source
-    old_url = driver.current_url
-    old_html = get_cleaned_html(page_source, old_url)
-
-    if action == 'CLICK_HTMLELEM':
-        elem.click()
-    elif action == 'SELECT_HTMLELEM':
-        select_obj = Select(elem)
-        if args['outputWebActionOptionType'] == 'INDEX':
-            select_obj.select_by_index(int(args['outputWebActionOption']))
-        else:
-            select_obj.select_by_visible_text(args['outputWebActionOption'])
-    elif action == 'FILL_HTMLELEM':
-        elem.clear()
-        elem.send_keys(args['outputWebActionInput'])
-    elif action == 'SCROLL_PAGE':
-        driver.execute_script(f"window.scrollTo({{top: document.documentElement.scrollHeight * {args['outputWebActionY']}, left: document.documentElement.scrollWidth * {args['outputWebActionX']}, behavior: 'smooth'}})")
-        time.sleep(0.5)
-    elif action == 'WAIT_PAGE':
-        time.sleep(float(args['outputWebActionSeconds']))
-
-    driver.switch_to.window(page)
-    page_source = driver.page_source
-    new_url = driver.current_url
-    new_html = get_cleaned_html(page_source, new_url)
     return Response({'old_page': {'url': old_url, 'html': old_html}, 'new_page': {'url': new_url, 'html': new_html}})
 
 
