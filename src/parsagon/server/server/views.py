@@ -13,6 +13,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from lxml import etree
 import lxml.html
 import time
+from urllib.parse import urljoin
 
 
 def get_cleaned_html(html, url):
@@ -28,6 +29,13 @@ def get_cleaned_html(html, url):
     etree.strip_elements(root, 'script', with_tail=False)
     etree.strip_elements(root, 'noscript', with_tail=False)
     root.make_links_absolute(url)
+    for elem in root.xpath('//img[@srcset]'):
+        srcset_list = []
+        for s in elem.get(srcset).split(','):
+            parts = s.strip().split()
+            parts[0] = urljoin(url, parts[0])
+            srcset_list.append(' '.join(parts))
+        elem.set('srcset', ', '.join(srcset_list))
     for index, elem in enumerate(root.xpath('//*')):
         elem.set('data-psgn-id', str(index))
     return lxml.html.tostring(root)
