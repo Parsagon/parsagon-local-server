@@ -38,6 +38,7 @@ def get_cleaned_html(html, url):
         elem.set('srcset', ', '.join(srcset_list))
     for index, elem in enumerate(root.xpath('//*')):
         elem.set('data-psgn-id', str(index))
+        elem.attrib.pop('data-psgn-pg', None)
     return lxml.html.tostring(root)
 
 
