@@ -11,3 +11,4 @@ PyVirtualDisplay==3.0
 selenium-wire==4.6.3
 webdriver-manager==3.5.3
 lxml==4.8.0
+undetected-chromedriver==3.1.5.post4
