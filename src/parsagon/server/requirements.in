@@ -1,0 +1,14 @@
+Django==4.0.4
+djangorestframework==3.13.1
+daphne==3.0.2
+celery==5.2.2
+redis==3.5.3
+pandas==1.4.2
+requests==2.27.1
+SQLAlchemy==1.4.31
+psycopg2==2.9.3
+PyVirtualDisplay==3.0
+selenium-wire==4.6.3
+webdriver-manager==3.5.3
+lxml==4.8.0
+undetected-chromedriver==3.1.5.post4
