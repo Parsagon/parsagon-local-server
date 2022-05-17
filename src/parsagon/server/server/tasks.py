@@ -17,9 +17,9 @@ def run_code(pipeline_id, run_id):
     start_time = datetime.datetime.now()
     requests.patch(f'https://{settings.PARSAGON_HOST}/api/pipelines/runs/{run_id}/', headers=headers, json={'status': 'RUNNING'})
     loc = dict(locals(), **globals())
-    status = None
-    error = None
-    error_transformer = None
+    status = ''
+    error = ''
+    error_transformer = ''
     try:
         exec(code, loc, loc)
     except Exception as e:
@@ -38,7 +38,6 @@ def run_code(pipeline_id, run_id):
         if 'display' in loc:
             loc['display'].stop()
         status = 'ERROR'
-        error = error
     else:
         status = 'FINISHED'
     assert status is not None
