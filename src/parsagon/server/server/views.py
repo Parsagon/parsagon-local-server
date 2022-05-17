@@ -6,7 +6,7 @@ from server.utils import build_structure
 import subprocess
 import pandas as pd
 from pyvirtualdisplay import Display
-import seleniumwire.undetected_chromedriver as uc
+import undetected_chromedriver as uc
 from selenium.webdriver.support.select import Select
 from lxml import etree
 import lxml.html
@@ -93,7 +93,7 @@ def fetch_web(request):
     chrome_version = subprocess.run(['google-chrome', '--version'], check=True, stdout=subprocess.PIPE).stdout
     chrome_version = int(chrome_version.decode('utf-8').split()[2].split('.')[0])
     display = Display(visible=False, size=(1680, 1050)).start()
-    driver = uc.Chrome(version_main=chrome_version, seleniumwire_options={'disable_capture': True})
+    driver = uc.Chrome(version_main=chrome_version)
     driver.maximize_window()
     driver.get(url)
     time.sleep(2)
