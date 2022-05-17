@@ -46,4 +46,4 @@ def run_code(pipeline_id, run_id):
         'error': error,
         'error_transformer': error_transformer,
     }
-    requests.patch(f'https://{settings.PARSAGON_HOST}/api/pipelines/runs/{run_id}/', headers=headers, json={'status': status, 'code': code, **error_info})
+    requests.patch(f'https://{settings.PARSAGON_HOST}/api/pipelines/runs/{run_id}/', headers=headers, json={'status': status, **error_info})
