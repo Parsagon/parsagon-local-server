@@ -7,6 +7,7 @@ import subprocess
 import pandas as pd
 from pyvirtualdisplay import Display
 import undetected_chromedriver as uc
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
 from lxml import etree
 import lxml.html
@@ -137,6 +138,9 @@ def fetch_web_action(request):
         elif action == 'FILL_HTMLELEM':
             elem.clear()
             elem.send_keys(args['outputWebActionInput'])
+            end_key = args['outputWebActionEndKey']
+            if end_key == 'RETURN':
+                elem.send_keys(Keys.RETURN)
         elif action == 'SCROLL_PAGE':
             driver.execute_script(f"window.scrollTo({{top: document.documentElement.scrollHeight * {args['outputWebActionY']}, left: document.documentElement.scrollWidth * {args['outputWebActionX']}, behavior: 'smooth'}})")
             time.sleep(0.5)
