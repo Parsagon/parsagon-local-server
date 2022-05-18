@@ -6,10 +6,9 @@ from server.utils import build_structure
 import subprocess
 import pandas as pd
 from pyvirtualdisplay import Display
-from seleniumwire import webdriver
-from selenium.webdriver.chrome.service import Service
+import undetected_chromedriver as uc
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
-from webdriver_manager.chrome import ChromeDriverManager
 from lxml import etree
 import lxml.html
 import time
@@ -92,9 +91,10 @@ def write_db(request):
 @api_view(['POST'])
 def fetch_web(request):
     url = request.data['url']
-    options = {'disable_capture': True}
+    chrome_version = subprocess.run(['google-chrome', '--version'], check=True, stdout=subprocess.PIPE).stdout
+    chrome_version = int(chrome_version.decode('utf-8').split()[2].split('.')[0])
     display = Display(visible=False, size=(1680, 1050)).start()
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), seleniumwire_options=options)
+    driver = uc.Chrome(version_main=chrome_version)
     driver.maximize_window()
     driver.get(url)
     time.sleep(2)
@@ -138,6 +138,9 @@ def fetch_web_action(request):
         elif action == 'FILL_HTMLELEM':
             elem.clear()
             elem.send_keys(args['outputWebActionInput'])
+            end_key = args['outputWebActionEndKey']
+            if end_key == 'RETURN':
+                elem.send_keys(Keys.RETURN)
         elif action == 'SCROLL_PAGE':
             driver.execute_script(f"window.scrollTo({{top: document.documentElement.scrollHeight * {args['outputWebActionY']}, left: document.documentElement.scrollWidth * {args['outputWebActionX']}, behavior: 'smooth'}})")
             time.sleep(0.5)
