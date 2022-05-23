@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from server.tasks import run_code
@@ -93,11 +94,19 @@ def fetch_web(request):
     url = request.data['url']
     chrome_version = subprocess.run(['google-chrome', '--version'], check=True, stdout=subprocess.PIPE).stdout
     chrome_version = int(chrome_version.decode('utf-8').split()[2].split('.')[0])
+    chrome_options = uc.ChromeOptions()
+    chrome_prefs = {}
+    chrome_prefs["profile.default_content_settings"] = {"images": 2}
+    chrome_prefs["profile.managed_default_content_settings"] = {"images": 2}
+    chrome_options.add_experimental_option('prefs', chrome_prefs)
+    if settings.PROXY:
+        chrome_options.add_argument(f'--proxy-server={settings.PROXY}')
+        chrome_options.add_argument('--ignore-certificate-errors')
     display = Display(visible=False, size=(1680, 1050)).start()
-    driver = uc.Chrome(version_main=chrome_version)
+    driver = uc.Chrome(version_main=chrome_version, options=chrome_options)
     driver.maximize_window()
     driver.get(url)
-    time.sleep(2)
+    time.sleep(1)
     page_source = driver.page_source
     url = driver.current_url
     driver.quit()
