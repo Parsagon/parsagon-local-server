@@ -101,6 +101,7 @@ def fetch_web(request):
     chrome_options.add_experimental_option('prefs', chrome_prefs)
     if settings.PROXY:
         chrome_options.add_argument(f'--proxy-server={settings.PROXY}')
+        chrome_options.add_argument('--ignore-certificate-errors')
     display = Display(visible=False, size=(1680, 1050)).start()
     driver = uc.Chrome(version_main=chrome_version, options=chrome_options)
     driver.maximize_window()

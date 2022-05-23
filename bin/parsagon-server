@@ -27,6 +27,9 @@ printf '%s\n%s\n%s\n' "export PARSAGON_HOST=$(cat /home/ubuntu/parsagon/parsagon
 sudo apt update
 sudo apt -y upgrade
 
+sudo apt -y install tinyproxy
+sudo cp /home/ubuntu/parsagon/parsagon-local-server/src/parsagon/tinyproxy.conf /etc/tinyproxy/tinyproxy.conf
+
 sudo apt -y install libpq-dev python3-dev
 
 sudo apt -y install unzip xvfb libxi6 libgconf-2-4
@@ -41,10 +44,9 @@ sudo systemctl restart redis.service
 
 sudo apt -y install python3-venv
 python3 -m venv /home/ubuntu/parsagon/venv
-source /home/ubuntu/parsagon/venv/bin/activate
 
 sudo apt -y install daphne
-pip install -r /home/ubuntu/parsagon/parsagon-local-server/src/parsagon/server/requirements.txt
+/home/ubuntu/parsagon/venv/bin/pip install -r /home/ubuntu/parsagon/parsagon-local-server/src/parsagon/server/requirements.txt
 
 if ! command -v mkcert &> /dev/null
 then

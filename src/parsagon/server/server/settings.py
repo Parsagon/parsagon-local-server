@@ -134,6 +134,6 @@ STATIC_URL = '/static/'
 
 
 try:
-    PROXY = get_env_variable('PARSAGON_HOST')
+    PROXY = get_env_variable('PROXY')
 except ImproperlyConfigured:
     PROXY = ''
