@@ -20,4 +20,4 @@ To add a proxy:
 Edit /etc/tinyproxy/tinyproxy.conf to point to your proxy, then run:
 `sudo service tinyproxy restart`
 and add
-`USE_PROXY=1` to `daphne.sh`.
+`PROXY=127.0.0.1:8888` to `daphne.sh`.
