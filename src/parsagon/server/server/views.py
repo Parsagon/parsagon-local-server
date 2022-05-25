@@ -33,6 +33,8 @@ def get_cleaned_html(html, url):
         srcset_list = []
         for s in elem.get('srcset').split(','):
             parts = s.strip().split()
+            if not parts:
+                continue
             parts[0] = urljoin(url, parts[0])
             srcset_list.append(' '.join(parts))
         elem.set('srcset', ', '.join(srcset_list))

@@ -33,13 +33,14 @@ def run_code(pipeline_id, run_id):
                 break
 
         #requests.post(f'https://{settings.PARSAGON_HOST}/api/pipelines/', headers=headers, json={'message': e, 'state': var_state})
+        status = 'ERROR'
+    else:
+        status = 'FINISHED'
+    finally:
         if 'driver' in loc:
             loc['driver'].quit()
         if 'display' in loc:
             loc['display'].stop()
-        status = 'ERROR'
-    else:
-        status = 'FINISHED'
     assert status is not None
 
     error_info = {} if error is None else {
