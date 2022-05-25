@@ -15,3 +15,9 @@ parsagon-server <paste your api_key here>
 For development:
 Make sure to include the test server as a second argument to parsagon-server:
 `parsagon-server <api_key> <test_server>`
+
+To add a proxy:
+Edit /etc/tinyproxy/tinyproxy.conf to point to your proxy, then run:
+`sudo service tinyproxy restart`
+and add
+`PROXY=127.0.0.1:8888` to `daphne.sh`.
