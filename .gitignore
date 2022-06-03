@@ -1,6 +1,10 @@
 # IDE
 .idea
 
+# DOCKER
+docker-dev
+Dockerfile.dev
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
