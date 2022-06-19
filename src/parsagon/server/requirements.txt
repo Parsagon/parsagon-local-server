@@ -56,14 +56,8 @@ click-plugins==1.1.1
     # via celery
 click-repl==0.2.0
     # via celery
-colorama==0.4.4
-    # via crayons
-configparser==5.2.0
-    # via webdriver-manager
 constantly==15.1.0
     # via twisted
-crayons==0.4.0
-    # via webdriver-manager
 cryptography==37.0.2
     # via
     #   autobahn
@@ -72,6 +66,8 @@ cryptography==37.0.2
     #   urllib3
 daphne==3.0.2
     # via -r requirements.in
+decorator==5.1.1
+    # via jsonpath-ng
 django==4.0.4
     # via
     #   -r requirements.in
@@ -103,6 +99,8 @@ idna==3.3
     #   urllib3
 incremental==21.3.0
     # via twisted
+jsonpath-ng==1.5.3
+    # via -r requirements.in
 kaitaistruct==0.9
     # via selenium-wire
 kombu==5.2.4
@@ -115,6 +113,8 @@ outcome==1.1.0
     # via trio
 pandas==1.4.2
     # via -r requirements.in
+ply==3.11
+    # via jsonpath-ng
 prompt-toolkit==3.0.29
     # via click-repl
 psycopg2==2.9.3
@@ -154,7 +154,6 @@ requests==2.27.1
     # via
     #   -r requirements.in
     #   undetected-chromedriver
-    #   webdriver-manager
 selenium==4.1.5
     # via
     #   selenium-wire
@@ -167,6 +166,7 @@ six==1.16.0
     # via
     #   automat
     #   click-repl
+    #   jsonpath-ng
     #   python-dateutil
     #   service-identity
 sniffio==1.2.0
@@ -202,8 +202,6 @@ vine==5.0.0
     #   kombu
 wcwidth==0.2.5
     # via prompt-toolkit
-webdriver-manager==3.5.3
-    # via -r requirements.in
 websockets==10.3
     # via undetected-chromedriver
 wsproto==1.1.0
