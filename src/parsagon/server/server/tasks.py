@@ -10,9 +10,9 @@ import sys
 
 
 @shared_task
-def run_code(pipeline_id, run_id):
+def run_code(run_id):
     headers = {'Authorization': f'Token {settings.API_KEY}'}
-    r = requests.get(f'https://{settings.PARSAGON_HOST}/api/pipelines/{pipeline_id}/code/', headers=headers)
+    r = requests.post(f'https://{settings.PARSAGON_HOST}/api/pipelines/runs/{run_id}/code/', headers=headers)
     code = r.json()['code']
     start_time = datetime.datetime.now()
     requests.patch(f'https://{settings.PARSAGON_HOST}/api/pipelines/runs/{run_id}/', headers=headers, json={'status': 'RUNNING'})

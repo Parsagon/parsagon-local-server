@@ -172,5 +172,5 @@ def fetch_web_action(request):
 
 @api_view(['POST'])
 def run_pipeline(request):
-    run_code.delay(request.data['pipeline_id'], request.data['run_id'])
+    run_code.delay(request.data['run_id'])
     return Response('OK')
