@@ -108,6 +108,7 @@ def fetch_web(request):
     driver = uc.Chrome(version_main=chrome_version, options=chrome_options)
     driver.maximize_window()
     driver.get(url)
+    driver.execute_script("document.querySelectorAll('style:empty').forEach((elem) => elem.textContent = [...elem.sheet.cssRules].map((rule) => rule.cssText).join('\\n'))")
     time.sleep(1)
     page_source = driver.page_source
     url = driver.current_url
@@ -133,6 +134,7 @@ def fetch_web_action(request):
             elem_id = elem.get('data-psgn-id')
             elem = driver.find_element_by_xpath(f'//*[@data-psgn-id="{elem_id}"]')
 
+        driver.execute_script("document.querySelectorAll('style:empty').forEach((elem) => elem.textContent = [...elem.sheet.cssRules].map((rule) => rule.cssText).join('\\n'))")
         page = driver.current_window_handle
         page_source = driver.page_source
         old_url = driver.current_url
@@ -159,6 +161,7 @@ def fetch_web_action(request):
             time.sleep(float(args['outputWebActionSeconds']))
 
         driver.switch_to.window(page)
+        driver.execute_script("document.querySelectorAll('style:empty').forEach((elem) => elem.textContent = [...elem.sheet.cssRules].map((rule) => rule.cssText).join('\\n'))")
         page_source = driver.page_source
         new_url = driver.current_url
         new_html = get_cleaned_html(page_source, new_url)
