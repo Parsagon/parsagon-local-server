@@ -9,6 +9,7 @@ SQLAlchemy==1.4.31
 psycopg2==2.9.3
 PyVirtualDisplay==3.0
 selenium-wire==4.6.3
-lxml==4.8.0
+lxml==4.9.0
+cssselect==1.1.0
 undetected-chromedriver==3.1.5.post4
 jsonpath-ng==1.5.3
