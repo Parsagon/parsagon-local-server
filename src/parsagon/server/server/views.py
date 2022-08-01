@@ -140,15 +140,15 @@ def fetch_web_action(request):
         old_url = driver.current_url
         old_html = get_cleaned_html(page_source, old_url)
 
-        if action == 'CLICK_HTMLELEM':
+        if action in ('CLICK_HTMLELEM', 'SCRAPE_CLICK_HTMLELEM'):
             elem.click()
-        elif action == 'SELECT_HTMLELEM':
+        elif action in ('SELECT_HTMLELEM', 'SCRAPE_SELECT_HTMLELEM'):
             select_obj = Select(elem)
             if args['outputWebActionOptionType'] == 'INDEX':
                 select_obj.select_by_index(int(args['outputWebActionOption']))
             else:
                 select_obj.select_by_visible_text(args['outputWebActionOption'])
-        elif action == 'FILL_HTMLELEM':
+        elif action in ('FILL_HTMLELEM', 'SCRAPE_FILL_HTMLELEM'):
             elem.clear()
             elem.send_keys(args['outputWebActionInput'])
             end_key = args['outputWebActionEndKey']
